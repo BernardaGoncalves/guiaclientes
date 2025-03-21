@@ -1,14 +1,16 @@
 <template>
-    <div :class="{'cliente': !isPremiun, 'cliente-premium': isPremiun}">
+    <div :class="{'cliente': !isPremium, 'cliente-premium': isPremium}">
         <hr>
         <h4>Nome: {{ cliente.nome }}</h4>
         <hr>
         <p>Dscrição: {{ cliente.desc }}</p>
         <p>Número: {{ cliente.numero }}</p>
-        <p>Email: {{ cliente.email }}</p>
+        <p>Email: {{  processEmail }}</p>
         <p v-if=" showAge == true ">Idade: {{ cliente.idade }}</p>
         <p v-else>O usuario escondeu a idade</p>
         <button @click="mudarCor($event)">Mudar cor</button>
+        <button @click="emitirEventDelet">Deletar</button>
+        <h4>Id especial: {{ idEspecial }}</h4>
     </div>
 
     
@@ -18,7 +20,7 @@
 export default {
     data(){
         return{
-            isPremiun: false
+            isPremium: false
         }
     },
     props: {
@@ -28,7 +30,20 @@ export default {
     methods: {
         mudarCor: function($event) {
             console.log($event)
-            this.isPremiun = !this.isPremiun
+            this.isPremiun = !this.isPremium
+        },
+        emitirEventDelet: function() {
+            console.log("Emitindo do filho")
+            this.$emit("meDelete", {idDoCliente: this.cliente.id, curso: "Node.js", promocao: true, component: this})
+
+        }
+    },
+    computed: {
+        processEmail: function(){
+            return this.cliente.email.toUpperCase()
+        },
+        idEspecial: function(){
+            return (this.cliente.email + this.cliente.nome + this.cliente.id).toUpperCase()
         }
     }
 

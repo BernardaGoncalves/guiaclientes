@@ -19,9 +19,9 @@
         <button @click="cadastrarUser">Cadastrar</button>
       <hr>
 
-      <div v-for="(cliente, index) in clientes" :key="cliente.id">
-        <h1>{{ index }}</h1>
-        <ClienteList  :cliente="cliente" :showAge="true"/>
+      <div v-for="(cliente, index) in orderClientes" :key="cliente.id">
+        <h1>{{ index + 1 }}</h1>
+        <ClienteList  :cliente="cliente" @meDelete= "deletaUser($event)" />
         <hr>
         <h4>Editar</h4>
         <input type="text" v-model="cliente.nome">
@@ -42,7 +42,7 @@
 </template>
 
 <script>
-
+import _ from 'lodash';
 import ClienteList from './components/ClienteList.vue'
 import ProdutoList from './components/ProdutoList.vue';
 
@@ -83,7 +83,7 @@ export default {
   },
   methods: {
     cadastrarUser: function() {
-      if(this.nomeField == "" ||this.nomeField == "" || this.emailField == "" || this.numeroField == 0 || this.idadeField == 0 || this.descField == ""   ){
+      if(this.nomeField == "" ||this.nomeField == "" || this.emailField == "" || this.numeroField == 0 || this.idadeField == 0 || this.descField == "" || this.nomeField < 3 ){
           this.deuErro = true
       } else {
         this.clientes.push({
@@ -102,7 +102,21 @@ export default {
 
         this.deuErro = false
       }
-      }
+      },
+    deletaUser: function($event) {
+      console.log("Evento Recebido")
+      console.log($event)
+      var id = $event.idDoCliente
+
+      var novoArray = this.clientes.filter(cliente => cliente.id != id)
+
+      this.clientes = novoArray
+
+  },
+  //Ordenar a lista por ordem crescente
+  orderClientes: function() {
+    return _.orderBy(this.clientes,['nome'],['asc'])
+  }
   }
 }
 </script>
