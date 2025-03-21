@@ -22,21 +22,17 @@
       <div v-for="(cliente, index) in orderClientes" :key="cliente.id">
         <h1>{{ index + 1 }}</h1>
         <ClienteList  :cliente="cliente" @meDelete= "deletaUser($event)" />
-        <hr>
-        <h4>Editar</h4>
+        
+        <h4>Editar usuario</h4>
         <input type="text" v-model="cliente.nome">
         <input type="text" v-model="cliente.email">
         <input type="text" v-model="cliente.numero">
         <input type="text" v-model="cliente.idade">
         <input type="text" v-model="cliente.desc">
+        <hr>
 
       </div>
 
-      <hr>
-
-      <h2>Lsta de Produtos</h2>
-
-      <hr>
       <ProdutoList/>
     </div>
 </template>
@@ -44,7 +40,7 @@
 <script>
 import _ from 'lodash';
 import ClienteList from './components/ClienteList.vue'
-import ProdutoList from './components/ProdutoList.vue';
+//import ProdutoList from './components/ProdutoList.vue';
 
 export default {
   name: 'App',
@@ -60,26 +56,41 @@ export default {
         clientes: [
           {
         id: 8,
-        nome: "saersfr",
-        email: "zsregwr",
-        numero: "sffffh",
+        nome: "Irene",
+        email: "iris@gmail.com",
+        numero: 23424,
         idade: 3,
-        desc: "xfdgvfx"
+        desc: "Coisa fofa"
           }
           ,
-          {id: 7,
-        nome: "saersfr",
-        email: "zsregwr",
-        numero: "sffffh",
-        idade: 3,
-        desc: "xfdgvfx"
+          {
+          id: 7,
+        nome: "Fanio",
+        email: "Fan@gmail.com",
+        numero: 7564,
+        idade: 7,
+        desc: "Best X9"
+          },
+          {
+          id: 4,
+          nome:"Ric",
+          email:"ric@gmail.com",
+          numero: 54435,
+          desc: "Cool guy"
+          },
+          {
+          id: 5,
+          nome: "kinDog",
+          email: "dog@gmail.com",
+          numero: 7564,
+          desc: "Dsycho dog"
           }
         ]
       }
     },
   components: {
     ClienteList,
-    ProdutoList
+    //ProdutoList
   },
   methods: {
     cadastrarUser: function() {
@@ -112,10 +123,12 @@ export default {
 
       this.clientes = novoArray
 
+  }
   },
+  computed: {
   //Ordenar a lista por ordem crescente
   orderClientes: function() {
-    return _.orderBy(this.clientes,['nome'],['asc'])
+    return _.orderBy(this.clientes,['nome'],['asc']);
   }
   }
 }
